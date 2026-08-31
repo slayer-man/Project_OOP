@@ -22,13 +22,31 @@ isort = "^5.13.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.flake8]
+# Максимальная длина строки (119 символов — стандарт для Black)
+max-line-length = 119
+
+# Список папок, которые линтер должен игнорировать
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv"
+]
+
+# Игнорировать специфичные правила, которые конфликтуют с Black
+# E203: пробел перед двоеточием (Black часто его ставит в срезах)
+# W503: перенос строки перед бинарным оператором
+extend-ignore = ["E203", "W503"]
+
+
 [tool.black]
-line-length = 100
+line-length = 119
 target-version = ['py310']
 
 [tool.isort]
 profile = "black"
-line_length = 100
+line_length = 119
 
 [tool.mypy]
 python_version = "3.10"
