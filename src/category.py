@@ -10,13 +10,38 @@ class Category:
 
     name: str
     description: str
-    products: list[Product]
 
-    def __init__(self, name: str, description: str, products: list[Product]):
+    def __init__(
+        self, name: str, description: str, products: list[Product] | None = None
+    ):
         self.name = name
         self.description = description
-        self.products = products
+        # Делаем список товаров приватным атрибутом
+        self.__products = []
 
-        # Автоматически увеличиваем счетчики при создании новой категории
+        # Автоматически увеличиваем счетчик категорий при создании
         Category.category_count += 1
-        Category.product_count += len(products)
+
+        # Если при инициализации передали список товаров, добавляем их через метод
+        if products:
+            for product in products:
+                self.add_product(product)
+
+    def add_product(self, product: Product) -> None:
+        """Метод для добавления объекта Product в приватный список товаров."""
+        if isinstance(product, Product):
+            self.__products.append(product)
+            # При добавлении каждого уникального товара увеличиваем счетчик
+            Category.product_count += 1
+        else:
+            raise TypeError("Добавить в категорию можно только объект класса Product")
+
+    @property
+    def products(self) -> str:
+        """Геттер возвращает список товаров в виде отформатированных строк."""
+        product_strings = []
+        for product in self.__products:
+            product_strings.append(
+                f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
+            )
+        return "\n".join(product_strings)
