@@ -1,3 +1,6 @@
+from typing import Any, Self
+
+
 class Product:
     """Класс для описания товара в магазине."""
 
@@ -9,6 +12,7 @@ class Product:
         self.name = name
         self.description = description
         self.quantity = quantity
+        # Делаем атрибут цены приватным при инициализации
         if price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             self.__price = 0.0
@@ -18,7 +22,7 @@ class Product:
     @classmethod
     def new_product(
         cls, product_data: dict, products_list: list["Product"] | None = None
-    ) -> "Product":  # <--- ЗАМЕНИЛИ Self НА СТРОКУ "Product"
+    ) -> Self:
         """Класс-метод принимает словарь с данными товара и возвращает созданный объект."""
         name = product_data.get("name", "")
         description = product_data.get("description", "")
@@ -29,6 +33,7 @@ class Product:
             for existing_product in products_list:
                 if existing_product.name == name:
                     existing_product.quantity += quantity
+                    # Используем сеттер для изменения цены (сработает логика проверки)
                     existing_product.price = max(existing_product.price, price)
                     return existing_product
 
@@ -36,17 +41,22 @@ class Product:
 
     @property
     def price(self) -> float:
+        """Геттер для получения приватного атрибута цены."""
         return self.__price
 
     @price.setter
     def price(self, new_price: float) -> None:
+        """Сеттер для изменения цены с проверками и подтверждением снижения."""
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
 
+        # Если цена снижается, запрашиваем подтверждение пользователя
         if new_price < self.__price:
             user_answer = (
-                input(f"Вы уверены, что хотите снизить цену с {self.__price} до {new_price} руб.? (y/n): ")
+                input(
+                    f"Вы уверены, что хотите снизить цену с {self.__price} до {new_price} руб.? (y/n): "
+                )
                 .strip()
                 .lower()
             )
@@ -54,4 +64,15 @@ class Product:
                 print("Действие отменено. Цена осталась прежней.")
                 return
 
+        # Устанавливаем новую цену, если все проверки пройдены
         self.__price = new_price
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление продукта (Задание 1)."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: Any) -> float:
+        """Складывает общую стоимость двух товаров на складе (Задание 2)."""
+        if isinstance(other, Product):
+            return (self.price * self.quantity) + (other.price * other.quantity)
+        raise TypeError("Складывать можно только объекты класса Product")
