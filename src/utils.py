@@ -1,5 +1,6 @@
 import json
 import os
+
 from src.category import Category
 from src.product import Product
 
@@ -9,12 +10,11 @@ def load_data_from_json(file_path: str) -> list[Category]:
     if not os.path.exists(file_path):
         return []
 
-    # Добавляем отлов ошибки декодирования JSON
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
     except json.JSONDecodeError:
-        return []  # Возвращаем пустой список, если файл сломан
+        return []
 
     categories = []
     for category_data in data:
