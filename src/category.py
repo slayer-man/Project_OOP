@@ -12,9 +12,7 @@ class Category:
     description: str
     __products: list[Product]
 
-    def __init__(
-        self, name: str, description: str, products: list[Product] | None = None
-    ):
+    def __init__(self, name: str, description: str, products: list[Product] | None = None):
         self.name = name
         self.description = description
         self.__products = []
@@ -34,9 +32,7 @@ class Category:
             # При добавлении каждого уникального товара увеличиваем счетчик
             Category.product_count += 1
         else:
-            raise TypeError(
-                "Добавить в категорию можно только объект класса Product или его наследников"
-            )
+            raise TypeError("Добавить в категорию можно только объект класса Product или его наследников")
 
     @property
     def products(self) -> str:

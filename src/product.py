@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any
 
 
 class Product:
@@ -12,7 +12,6 @@ class Product:
         self.name = name
         self.description = description
         self.quantity = quantity
-        # Делаем атрибут цены приватным при инициализации
         if price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             self.__price = 0.0
@@ -22,7 +21,7 @@ class Product:
     @classmethod
     def new_product(
         cls, product_data: dict, products_list: list["Product"] | None = None
-    ) -> Self:
+    ) -> "Product":  # <--- ТЕПЕРЬ ТУТ СТРОКА "Product" ВМЕСТО Self
         """Класс-метод принимает словарь с данными товара и возвращает созданный объект."""
         name = product_data.get("name", "")
         description = product_data.get("description", "")
@@ -33,7 +32,6 @@ class Product:
             for existing_product in products_list:
                 if existing_product.name == name:
                     existing_product.quantity += quantity
-                    # Используем сеттер для изменения цены (сработает логика проверки)
                     existing_product.price = max(existing_product.price, price)
                     return existing_product
 
@@ -54,9 +52,7 @@ class Product:
         # Если цена снижается, запрашиваем подтверждение пользователя
         if new_price < self.__price:
             user_answer = (
-                input(
-                    f"Вы уверены, что хотите снизить цену с {self.__price} до {new_price} руб.? (y/n): "
-                )
+                input(f"Вы уверены, что хотите снизить цену с {self.__price} до {new_price} руб.? (y/n): ")
                 .strip()
                 .lower()
             )
