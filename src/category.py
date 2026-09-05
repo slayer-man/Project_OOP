@@ -11,9 +11,7 @@ class Category:
     name: str
     description: str
 
-    def __init__(
-        self, name: str, description: str, products: list[Product] | None = None
-    ):
+    def __init__(self, name: str, description: str, products: list[Product] | None = None):
         self.name = name
         self.description = description
         # Делаем список товаров приватным атрибутом

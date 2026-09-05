@@ -1,6 +1,7 @@
 import json
 import os
 from typing import Any
+
 from src.category import Category
 from src.product import Product
 
@@ -42,8 +43,7 @@ class ProductIterator:
     """Вспомогательный класс для перебора товаров категории в цикле for (Доп. задание)."""
 
     def __init__(self, category: Category):
-        # Получаем доступ к приватному списку товаров через манглинг имен
-        self.products = category._Category__products
+        self.products: list[Product] = getattr(category, "_Category__products")
         self.index = 0
 
     def __iter__(self) -> "ProductIterator":
