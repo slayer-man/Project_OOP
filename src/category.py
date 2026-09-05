@@ -10,12 +10,14 @@ class Category:
 
     name: str
     description: str
+    __products: list[Product]
 
-    def __init__(self, name: str, description: str, products: list[Product] | None = None):
+    def __init__(
+        self, name: str, description: str, products: list[Product] | None = None
+    ):
         self.name = name
         self.description = description
-        # Делаем список товаров приватным атрибутом
-        self.__products: list[Product] = []
+        self.__products = []
 
         # Автоматически увеличиваем счетчик категорий при создании
         Category.category_count += 1
@@ -26,13 +28,15 @@ class Category:
                 self.add_product(product)
 
     def add_product(self, product: Product) -> None:
-        """Метод для добавления объекта Product в приватный список товаров."""
-        if isinstance(product, Product):
+        """Метод для добавления объекта Product или его наследников в приватный список товаров (Задание 3)."""
+        if isinstance(product, Product) and issubclass(type(product), Product):
             self.__products.append(product)
             # При добавлении каждого уникального товара увеличиваем счетчик
             Category.product_count += 1
         else:
-            raise TypeError("Добавить в категорию можно только объект класса Product")
+            raise TypeError(
+                "Добавить в категорию можно только объект класса Product или его наследников"
+            )
 
     @property
     def products(self) -> str:
@@ -43,6 +47,6 @@ class Category:
         return "\n".join(product_strings)
 
     def __str__(self) -> str:
-        """Возвращает строковое представление категории с подсчетом всех штук (Задание 1)."""
+        """Возвращает строковое представление категории с подсчетом всех штук на складе."""
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."

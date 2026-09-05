@@ -1,7 +1,6 @@
 import json
 import os
 from typing import Any
-
 from src.category import Category
 from src.product import Product
 
@@ -40,9 +39,10 @@ def load_data_from_json(file_path: str) -> list[Category]:
 
 
 class ProductIterator:
-    """Вспомогательный класс для перебора товаров категории в цикле for (Доп. задание)."""
+    """Вспомогательный класс для перебора товаров категории в цикле for."""
 
     def __init__(self, category: Category):
+        # Используем getattr для обхода строгого mypy на манглинг имен
         self.products: list[Product] = getattr(category, "_Category__products")
         self.index = 0
 
