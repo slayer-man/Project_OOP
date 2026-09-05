@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class Product:
     """Класс для описания товара в магазине."""
 
@@ -55,3 +58,11 @@ class Product:
                 return
 
         self.__price = new_price
+
+    def __str__(self) -> str:
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: Any) -> float:
+        if isinstance(other, Product):
+            return (self.price * self.quantity) + (other.price * other.quantity)
+        raise TypeError("Складывать можно только объекты класса Product")

@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Any
 
 from src.category import Category
 from src.product import Product
@@ -36,3 +37,22 @@ def load_data_from_json(file_path: str) -> list[Category]:
         categories.append(category)
 
     return categories
+
+
+class ProductIterator:
+    """Вспомогательный класс для перебора товаров категории в цикле for (Доп. задание)."""
+
+    def __init__(self, category: Category):
+        self.products: list[Product] = getattr(category, "_Category__products")
+        self.index = 0
+
+    def __iter__(self) -> "ProductIterator":
+        return self
+
+    def __next__(self) -> Any:
+        if self.index < len(self.products):
+            product = self.products[self.index]
+            self.index += 1
+            return product
+        else:
+            raise StopIteration
