@@ -3,7 +3,7 @@ from src.product import Product
 
 
 class BaseGroup(ABC):
-    """Абстрактный базовый класс для групп товаров (Доп. задание к Заданию 3)."""
+    """Абстрактный базовый класс для групп товаров."""
 
     @abstractmethod
     def __init__(self, name: str, description: str) -> None:
@@ -70,7 +70,7 @@ class Category(BaseGroup):
 
 
 class Order(BaseGroup):
-    """Класс для описания заказа на покупку одного товара (Доп. задание к Заданию 3)."""
+    """Класс для описания заказа на покупку одного товара."""
 
     def __init__(self, product: Product, quantity_to_buy: int):
         if not isinstance(product, Product):
