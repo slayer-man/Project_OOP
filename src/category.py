@@ -26,7 +26,7 @@ class Category:
                 self.add_product(product)
 
     def add_product(self, product: Product) -> None:
-        """Метод для добавления объекта Product или его наследников в приватный список товаров (Задание 3)."""
+        """Метод для добавления объекта Product или его наследников в приватный список товаров."""
         if isinstance(product, Product) and issubclass(type(product), Product):
             self.__products.append(product)
             # При добавлении каждого уникального товара увеличиваем счетчик

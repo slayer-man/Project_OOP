@@ -21,7 +21,7 @@ class Product:
     @classmethod
     def new_product(
         cls, product_data: dict, products_list: list["Product"] | None = None
-    ) -> "Product":  # <--- ТЕПЕРЬ ТУТ СТРОКА "Product" ВМЕСТО Self
+    ) -> "Product":
         """Класс-метод принимает словарь с данными товара и возвращает созданный объект."""
         name = product_data.get("name", "")
         description = product_data.get("description", "")
@@ -68,14 +68,14 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: Any) -> float:
-        """Складывает полную стоимость остатков двух товаров строго одного и того же класса (Задание 2)."""
+        """Складывает полную стоимость остатков двух товаров строго одного и того же класса."""
         if type(self) is type(other):
             return (self.price * self.quantity) + (other.price * other.quantity)
         raise TypeError("Складывать можно только продукты одного и того же класса")
 
 
 class Smartphone(Product):
-    """Дочерний класс для описания смартфонов (Задание 1)."""
+    """Дочерний класс для описания смартфонов."""
 
     def __init__(
         self,
@@ -96,7 +96,7 @@ class Smartphone(Product):
 
 
 class LawnGrass(Product):
-    """Дочерний класс для описания газонной травы (Задание 1)."""
+    """Дочерний класс для описания газонной травы."""
 
     def __init__(
         self,
