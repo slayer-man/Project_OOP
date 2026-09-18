@@ -1,7 +1,6 @@
 import json
 import os
 from typing import Any
-
 from src.category import Category
 from src.product import Product
 
@@ -43,7 +42,6 @@ class ProductIterator:
     """Вспомогательный класс для перебора товаров категории в цикле for."""
 
     def __init__(self, category: Category):
-        # Используем getattr для обхода строгого mypy на манглинг имен
         self.products: list[Product] = getattr(category, "_Category__products")
         self.index = 0
 
